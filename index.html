@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <title>How Well Does New York’s Bike Sharing System Serve New Yorkers?</title>
+    <script src = "https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
    	<script src="https://d3js.org/d3.v4.min.js"></script>
 <!-- google fonts Domine -->
    	<link href="https://fonts.googleapis.com/css2?family=Domine&display=swap" rel="stylesheet">
@@ -35,6 +38,7 @@
 
 
 
+
 		#firstvisualdiv, #secondvisualdiv {
         position: -webkit-sticky;
           position: sticky;
@@ -53,10 +57,34 @@
 		.active {
         	opacity:1;
     	}
+      .counties {
+      fill: none;
+      }
 
+      .states {
+      fill: none;
+      stroke: #fff;
+      stroke-linejoin: round;
+      }
 
+      #tooltip.hidden {
+       display: none;
+     }
+
+      #tooltip {
+       position: absolute;
+       width: 100px;
+       height: 65px;
+       padding: 5px;
+       background-color: white;
+       border: solid gray 1px;
+       z-index:10;
+     }
 
 	</style>
+
+
+
 </head>
 <body>
   <main role="main" class="container" >
@@ -117,22 +145,17 @@
      	<br><br>
      	<p>Process </p>
      	<br><br>
-     	<p>First of all, identify the neighborhoods that belong to the low-come ones. </p>
+      <p>First of all, We identify the neighborhoods that belong to the low-come ones based on American Community Survey (ACS) data source. </p>
      	<br><br>
-     	<p id="text2">We plan to use American Community Survey (ACS) data source. </p>
+     	<br><br>
+     	<p id="text2">The hatched area are identified low income areas. </p>
         <br><br>
         <br><br>
-     	<p>ACS has tables of income and demographical data in each community, helping to get income per capita for each community in the New York City.  </p>
+     	<p>Our analysis finds that the Citi Bike network mainly serves a privileged population that already has strong transit options. Future expansions of bike sharing in NYC, either through the existing Citi Bike system or through the introduction of new competitors, should expand the effective size of the population who can access the subway in neighborhoods of high social need. Our analysis finds that the Citi Bike network mainly serves a privileged population that already has strong transit options. Future expansions of bike sharing in NYC, either through the existing Citi Bike system or through the introduction of new competitors, should expand the effective size of the population who can access the subway in neighborhoods of high social need.</p>
         <br><br>
         <br><br>
-     	<p>Then making the choropleth map indicating the low-income and middle-income neighborhoods. </p>
         <br><br>
-        <br><br>
-     	<p>Fig1 illustrates which neighborhoods belong to the low-income and middle-income neighborhoods, as well as the neighborhoods that exclude from the analysis. </p>
-        <br><br>
-        <br><br>
-        <p>The low-income neighborhoods cluster together and appear in four of the five NYC counties.</p>
-        <br><br>
+
 
 
      	</div>
@@ -146,18 +169,19 @@
             <br><br>
             <p>Next, identify the neighborhoods that belong to the low transport accessibility ones. We plan to overlap three public transport layers(in dots) and their service buffers(in areas).</p>
             <br><br>
-            <p>A) Bike sharing docks </p>
-            <br><br>
-            <p id="text3"> B) Bus routes stops </p>
+            <p id="text3"> Citi bike helps fill in the gaps in our city’s subway and bus systems and offers riders a convenient, environmentally friendly way to commute or simply get from place to place. </p>
            <br><br>
            <br><br>
-            <p> C) Subway stations </p>
            <br><br>
            <br><br>
             <p> D) and service buffers for each transport. </p>
            <br><br>
            <br><br>
-            <p>We plan to get the size and location of bike sharing docks/ bus routes stops/ subway stations in the New York City, then generate different levels of buffers for each dock/stops/station according to their sizes. </p>
+            <p id="text4"> The red areas are the places we identify that’s urgent to have bike stations to help with the access towards public transportation. </p>
+            <br><br>
+            <br><br>
+            <p> For each of the station, we are suggesting:</p>
+            <br><br>
             <br><br>
 
             </div>
@@ -173,17 +197,21 @@
 
 <script type="text/javascript">
 
+//Our D3 code will go here.
+
+
+
 var svg = d3.select("div#firstvisualdiv")
 						.append("svg")
-						.attr("viewBox", "0 0 1200 800")
+						.attr("viewBox", "0 0 2400 1600")
   						.attr("preserveAspectRatio", "xMinYMid")
 
 			svg.append("svg:image")
                 .attr("xlink:href","fig0.jpg")
                 .attr("x",100)
                 .attr("y",0)
-                .attr("width",1000)
-                .attr("height", 1000)
+                .attr("width",2000)
+                .attr("height", 2000)
                 .attr("class", "text1opacity")
 
 
@@ -213,6 +241,19 @@ var svg = d3.select("div#thirdvisualdiv")
                 .attr("height", 1000)
                 .attr("class", "text3opacity")
 
+var svg = d3.select("div#thirdvisualdiv")
+            .append("svg")
+            .attr("viewBox", "0 0 1200 800")
+              .attr("preserveAspectRatio", "xMinYMid")
+
+          svg.append("svg:image")
+               .attr("xlink:href","fig3.jpg")
+               .attr("x",100)
+               .attr("y",0)
+               .attr("width",1000)
+               .attr("height", 1000)
+               .attr("class", "text4opacity")
+
 
     var controller = new ScrollMagic.Controller();
 
@@ -224,9 +265,118 @@ var svg = d3.select("div#thirdvisualdiv")
         	.setClassToggle(".text2opacity", "active")
         	.addTo(controller);
 
-		new ScrollMagic.Scene({triggerElement: "#text3"})
+		  new ScrollMagic.Scene({triggerElement: "#text3"})
         	.setClassToggle(".text3opacity", "active")
         	.addTo(controller);
+
+      new ScrollMagic.Scene({triggerElement: "#text4"})
+          .setClassToggle(".text4opacity", "active")
+          addTo(controller);
+
+//Our D3 code will go here.
+var width = 1200,
+    height = 900;
+var albersProjection = d3.geoAlbers()
+                .scale(190000)
+                .rotate([71.057, 0])
+                .center([0,42.313])
+                .translate([width/2,height/2])
+var path = d3.geoPath()
+                            .projection(albersProjection)
+
+var svg = d3.select("body").append("svg")
+.attr("width",1000)
+.attr("height", 1000)
+//2. Load the data:
+var bostonurl='https://gist.githubusercontent.com/cesandoval/09b2e39263c748fbcb84b927cecc7c46/raw/ab71d3638efd2545ec99c2651c6f2ddcea9d2a07/boston.json'
+var tweeturl="https://raw.githubusercontent.com/brookefzy/BigData2020/master/pset6/boston_311.csv"
+
+var tweet = d3.map();
+
+var color = d3.scaleQuantize()
+        .domain([0, 5.7])
+        .range(d3.schemePurples[9]);
+        var g = svg.append("g")
+               .attr("class", "key")
+               .attr("transform", "translate(0,40)");
+
+
+
+                g.selectAll("rect")
+                        .data(color.range().map(function(d) {
+                            d = color.invertExtent(d);
+                            if (d[0] == null) d[0] = x.domain()[0];
+                            if (d[1] == null) d[1] = x.domain()[1];
+                            return d;
+                        }))
+                        .enter().append("rect")
+                        .attr("height", 8)
+                        .attr("x", function(d) { return x(d[0]); })
+                        .attr("width", function(d) { return x(d[1]) - x(d[0]); })
+                        .attr("fill", function(d) { return color(d[0]); });
+
+                        legend = g.append("text")
+                                .attr("x", x.range()[0])
+                                .attr("y", -6)
+                                .attr("fill", "#000")
+                                .attr("text-anchor", "start")
+                                .attr("font-weight", "bold")
+                                .text("Tweets per neighborhood(Log Scale)");
+
+                  g.call(d3.axisBottom(x)
+                      .tickSize(13)
+                      .tickFormat(function(x, i) { return i ? x : x + "%"; })
+                      .tickValues(color.domain()))
+                      .select(".domain")
+                      .remove();
+
+                  var promises = [
+                              d3.json(bostonurl),
+                              d3.csv(tweeturl, function(d) {tweet.set(d.Name, [+d.twitter, +d.tot_count]); })
+                              ]
+
+      Promise.all(promises).then(ready)
+
+
+      var tooltip = d3.select("body")
+            .append("div")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("visibility", "hidden")
+              .style("background","white")
+              .style("opacity","0.6")
+              .style("padding","5px")
+              .style("font-family", "'Open Sans', sans-serif")
+              .style("font-size", "12px");
+  ;
+
+  function ready([boston]) {
+          console.log(boston)
+          console.log(tweet)
+
+      var tweets = svg.append("g")
+      tweets.selectAll("path")
+          .data(topojson.feature(boston, boston.objects.boston_neigh).features)
+          .enter().append("path")
+          .attr("fill", function(d) { return color(d.twitter = Math.log(tweet.get(d.properties.Name)[0])); })
+          .style("stroke","black")
+          .attr("d", path)
+          .on("mouseover", function(d) {
+                  console.log(tweet.get(d.properties.Name))
+                  tooltip
+           .style("left", d3.event.pageX + "px")
+           .style("top", d3.event.pageY + "px")
+                   .text(d.properties.Name +": " + (tweet.get(d.properties.Name)[0]/tweet.get(d.properties.Name)[1]).toFixed(4))
+                   .style("visibility", "visible");
+       })
+
+          .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+
+       .on("mouseout", function() {
+         d3.select("#tooltip").classed("hidden", true);
+       });
+
+  }
 
 </script>
 </body>
