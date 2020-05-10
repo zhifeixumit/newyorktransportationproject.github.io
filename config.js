@@ -58,7 +58,7 @@ var config = {
             id: 'second identifier',
             title: 'Who are Citi Bike Serving',
             // image: './path/to/image/source.png',
-            description: 'By overlaying the Citi Bike stations and New Yorker’s Income map, we can see that the people Citi Bike is currently serving are the wealthiest and the most privileged ones, while most of the neighborhoods that experience extreme poverty lie outside Citi Bikes service area.',
+            description: 'By overlaying the Citi Bike stations and New Yorker\'s Income map, we can see that the people Citi Bike is currently serving are the wealthiest and the most privileged ones, while most of the neighborhoods that experience extreme poverty lie outside Citi Bikes service area. This found out is not surprising, two years ago a report from McGill University, founded by New York Communities for Change (NYCC), has found out that New Yorkers living inside Citi Bikes service area have a median household income of $90,400, compared to an average of $54,700 for those excluded. Things haven\'t changed much yet since the report published.',
             location: {
                   center: [-73.97341, 40.69114],
                   zoom:10.86,
