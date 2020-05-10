@@ -40,10 +40,10 @@ var config = {
                 }
             ],
             onChapterExit: [
-              // {
-              //     layer: 'bike_station',
-              //     opacity: 1
-              // },
+              {
+                  layer: 'bike_station',
+                  opacity: 1
+              },
               {
                   layer: 'bike_station',
                   opacity: 0.5
