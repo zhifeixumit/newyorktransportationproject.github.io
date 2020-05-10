@@ -1,383 +1,270 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset='utf-8' />
     <title>How Well Does New York’s Bike Sharing System Serve New Yorkers?</title>
-    <script src = "https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="https://d3js.org/topojson.v2.min.js"></script>
-   	<script src="https://d3js.org/d3.v4.min.js"></script>
-<!-- google fonts Domine -->
-   	<link href="https://fonts.googleapis.com/css2?family=Domine&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&display=swap" rel="stylesheet">
-   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
     <style>
-
-		p {
-      /* paragraph font */
-			font-family: 'Domine', serif;
-			color:#353536;
-			font-weight:400;
-      font-size:15px;
-		}
-
-    h1 {
-      /* heading font */
-      font-family: 'Domine', serif;
-			font-size:40px;
-			font-weight:700;
-			line-height:1.3;
-		}
-		svg {
-			width:100%;
-			height:600px;
-			padding-left:5%;
-			padding-right:50px;
-		}
-
-
-
-
-		#firstvisualdiv, #secondvisualdiv {
-        position: -webkit-sticky;
-          position: sticky;
-          top: -1px;
-    	}
-
-   .text1opacity, .text2opacity, .text3opacity {
-        font-size:30px;
-        fill:blue;
-        opacity:0;
-        transition: opacity 0.8s;
-         -webkit-transition: opacity 0.8s;
+        body {
+            margin:0;
+            padding:0;
+            font-family: 'Domine', serif;
+        }
+        a, a:hover, a:visited {
+            color: #0071bc;
+        }
+        #map {
+            top:0;
+            height: 100vh;
+            width:100vw;
+            position: fixed;
+            z-index: -5;
+        }
+        #header {
+            margin: 3vh auto;
+            width: 90vw;
+            padding: 2vh;
+            text-align: center;
+        }
+        #footer {
+            width: 100%;
+            min-height: 5vh;
+            padding-top: 2vh;
+            padding-bottom: 2vh;
+            text-align: center;
+            line-height: 25px;
+            font-size: 13px;
+        }
+        #features {
+            padding-top: 10vh;
+            padding-bottom: 10vh;
+            z-index: 100;
+        }
+        .centered {
+            width: 50vw;
+            margin: 0 auto;
+        }
+        .lefty {
+            width: 33vw;
+            margin-left: 5vw;
+        }
+        .righty {
+            width: 33vw;
+            margin-left: 62vw;
+        }
+        .light {
+            color: white;
+            background-color:#transparent;
+        }
+        .dark {
+            color: white;
+            background-color: #444;
+        }
+        .step {
+            padding-bottom: 50vh;
+            /* margin-bottom: 10vh; */
+            opacity: 0.25;
+        }
+        .step.active {
+            opacity: 0.9;
         }
 
+        .step div {
+            padding:  25px 50px;
+            line-height: 25px;
+            font-size: 13px;
+        }
 
-		.active {
-        	opacity:1;
-    	}
-      .counties {
-      fill: none;
-      }
+        .step img {
+            width: 100%;
+        }
 
-      .states {
-      fill: none;
-      stroke: #fff;
-      stroke-linejoin: round;
-      }
-
-      #tooltip.hidden {
-       display: none;
-     }
-
-      #tooltip {
-       position: absolute;
-       width: 100px;
-       height: 65px;
-       padding: 5px;
-       background-color: white;
-       border: solid gray 1px;
-       z-index:10;
-     }
-
-	</style>
-
-
-
+        @media (max-width: 750px) {
+            #features {
+                width: 90vw;
+                margin: 0 auto;
+            }
+        }
+        </style>
 </head>
 <body>
-  <main role="main" class="container" >
-     <div class="row">
-     	<div class="col-12">
-     		<br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-     		<h1>How Well Does New York’s</h1>
-        <h1>Bike Sharing System Serve? </h1>
-        <h1>New Yorkers? </h1>
-            <p>Author: Ziyu Ran, Yanchao Li, Zhifei Xu</p>
-     		<hr>
-     	</div>
-     </div>
-     <div class="row">
-      	<div class="col-6">
-      	<p>Citi Bikes are proliferating, and tend to arrive at their Manhattan destinations faster than cabs. A trip of up to half a mile in the city takes, on average, five minutes and 37 seconds by cab but just four minutes on a Citi Bike. That makes riding a bike about 30% faster. The same goes for longer rides. </p>
-        <br><br>
-        <p>But how well is this bike sharing system serving New Yorkers? This website will introduce the situation to you the Citi Bike network from an economic and racial equity perspective, using spatial analysis to investigate the extent to which bike sharing helps to improve mobility options for New Yorkers most in need of such options.</p>
-       	<br><br>
-      </div>
-      <div class="row">
-       <div class="col-4">
-       <br><br>
-      	<p>A trip between 1.5 and 2 miles in Midtown takes just more than 21 minutes in a taxi and 14 minutes, 30 seconds on a Citi Bike. In the past five </p>
-        <p>In the past five years the totals for both Brooklyn and Manhattan have grown enough to stand alone, but totals for the Bronx, Queens, and Staten Island still remain close to the margin of error.</p>
-      	<br><br>
-        <p>We are asking the following question:</p>
-        <p>1. Who has access to Citi Bike, and who doesn’t?</p>
-        <p>2.How have the populations with access to Citi Bike changed since 2013?</p>
-        <p>3. Which neighborhoods use Citi Bike, and which don’t?</p>
-        <p>4. How should bike sharing expand in the future to address existing inequities and gaps in the transit system?</p>
-        <br><br>
-        <br><br>
-     	<p id="text1">We did an analysis based on a spatial analysis of Citi Bike stations and subway stations in relation to the demographics of New York City. The study’s three key research tasks are 1) to compare the demographics of areas of New York City with bike sharing access to the demographics of areas without such access, 2) to identify demographic differences in actual bike share ridership, and 3) to identify areas of the city which would be plausible candidates for bike sharing, if questions of social equity were prioritized in the development of future bike sharing services.</p>
-        <br><br>
-        <br><br>
-     	<p>In the past five years the totals for both Brooklyn and Manhattan have grown enough to stand alone, but totals for the Bronx, Queens, and Staten Island still remain close to the margin of error. </p>
-        <br><br>
-        <br><br>
-     	<p>The New York city council speaker, Corey Johnson, who introduced the “streets master plan” bill and is anticipated to run for mayor in 2021, said after the vote: “The way we plan our streets now makes no sense and New Yorkers pay the price every day, stuck on slow buses or risking their own safety cycling without protected bike lanes … I want to completely revolutionise how we share our street space, and that’s what this bill does. “</p>
-        <br><br>
-        <br><br>
-     	<p>“This is a roadmap to breaking the car culture in a thoughtful, comprehensive way, and I am so proud to pass this bill today." </p>
-     	<br><br>
 
-     	</div>
+<div id="map"></div>
+<div id="story"></div>
+<script src="./config.js"></script>
+<script>
+var layerTypes = {
+    'fill': ['fill-opacity'],
+    'line': ['line-opacity'],
+    'circle': ['circle-opacity', 'circle-stroke-opacity'],
+    'symbol': ['icon-opacity', 'text-opacity'],
+    'raster': ['raster-opacity'],
+    'fill-extrusion': ['fill-extrusion-opacity']
+}
 
-     	<div class="col-8">
-     		<div id="firstvisualdiv">
-     		</div>
-         </div>
+var alignments = {
+    'left': 'lefty',
+    'center': 'centered',
+    'right': 'righty'
+}
 
+function getLayerPaintType(layer) {
+    var layerType = map.getLayer(layer).type;
+    return layerTypes[layerType];
+}
 
-     	<div class="col-4">
-     	<br><br>
-     	<p>Process </p>
-     	<br><br>
-      <p>First of all, We identify the neighborhoods that belong to the low-come ones based on American Community Survey (ACS) data source. </p>
-     	<br><br>
-     	<br><br>
-     	<p id="text2">The hatched area are identified low income areas. </p>
-        <br><br>
-        <br><br>
-     	<p>Our analysis finds that the Citi Bike network mainly serves a privileged population that already has strong transit options. Future expansions of bike sharing in NYC, either through the existing Citi Bike system or through the introduction of new competitors, should expand the effective size of the population who can access the subway in neighborhoods of high social need. Our analysis finds that the Citi Bike network mainly serves a privileged population that already has strong transit options. Future expansions of bike sharing in NYC, either through the existing Citi Bike system or through the introduction of new competitors, should expand the effective size of the population who can access the subway in neighborhoods of high social need.</p>
-        <br><br>
-        <br><br>
-        <br><br>
+function setLayerOpacity(layer) {
+    var paintProps = getLayerPaintType(layer.layer);
+    paintProps.forEach(function(prop) {
+        map.setPaintProperty(layer.layer, prop, layer.opacity);
+    });
+}
 
+var story = document.getElementById('story');
+var features = document.createElement('div');
+features.classList.add(alignments[config.alignment]);
+features.setAttribute('id', 'features');
 
+var header = document.createElement('div');
 
-     	</div>
-     	<div class="col-8">
-     		<div id="secondvisualdiv">
-     		</div>
-        </div>
+if (config.title) {
+    var titleText = document.createElement('h1');
+    titleText.innerText = config.title;
+    header.appendChild(titleText);
+}
 
+if (config.subtitle) {
+    var subtitleText = document.createElement('h2');
+    subtitleText.innerText = config.subtitle;
+    header.appendChild(subtitleText);
+}
 
-        <div class="col-4">
-            <br><br>
-            <p>Next, identify the neighborhoods that belong to the low transport accessibility ones. We plan to overlap three public transport layers(in dots) and their service buffers(in areas).</p>
-            <br><br>
-            <p id="text3"> Citi bike helps fill in the gaps in our city’s subway and bus systems and offers riders a convenient, environmentally friendly way to commute or simply get from place to place. </p>
-           <br><br>
-           <br><br>
-           <br><br>
-           <br><br>
-            <p> D) and service buffers for each transport. </p>
-           <br><br>
-           <br><br>
-            <p id="text4"> The red areas are the places we identify that’s urgent to have bike stations to help with the access towards public transportation. </p>
-            <br><br>
-            <br><br>
-            <p> For each of the station, we are suggesting:</p>
-            <br><br>
-            <br><br>
+if (config.byline) {
+    var bylineText = document.createElement('p');
+    bylineText.innerText = config.byline;
+    header.appendChild(bylineText);
+}
 
-            </div>
-            <div class="col-8">
-                <div id="thirdvisualdiv">
-                </div>
-           </div>
+if (header.innerText.length > 0) {
+    header.classList.add(config.theme);
+    header.setAttribute('id', 'header');
+    story.appendChild(header);
+}
 
+config.chapters.forEach((record, idx) => {
+    var container = document.createElement('div');
+    var chapter = document.createElement('div');
 
-     </div>
-  </main><!-- /.container -->
-</body>
+    if (record.title) {
+        var title = document.createElement('h3');
+        title.innerText = record.title;
+        chapter.appendChild(title);
+    }
 
-<script type="text/javascript">
+    if (record.image) {
+        var image = new Image();
+        image.src = record.image;
+        chapter.appendChild(image);
+    }
 
-//Our D3 code will go here.
+    if (record.description) {
+        var story = document.createElement('p');
+        story.innerHTML = record.description;
+        chapter.appendChild(story);
+    }
 
+    container.setAttribute('id', record.id);
+    container.classList.add('step');
+    if (idx === 0) {
+        container.classList.add('active');
+    }
 
+    chapter.classList.add(config.theme);
+    container.appendChild(chapter);
+    features.appendChild(container);
+});
 
-var svg = d3.select("div#firstvisualdiv")
-						.append("svg")
-						.attr("viewBox", "0 0 2400 1600")
-  						.attr("preserveAspectRatio", "xMinYMid")
+story.appendChild(features);
 
-			svg.append("svg:image")
-                .attr("xlink:href","fig0.jpg")
-                .attr("x",100)
-                .attr("y",0)
-                .attr("width",2000)
-                .attr("height", 2000)
-                .attr("class", "text1opacity")
+var footer = document.createElement('div');
 
+if (config.footer) {
+    var footerText = document.createElement('p');
+    footerText.innerHTML = config.footer;
+    footer.appendChild(footerText);
+}
 
-var svg = d3.select("div#secondvisualdiv")
-						.append("svg")
-						.attr("viewBox", "0 0 1200 800")
-  						.attr("preserveAspectRatio", "xMinYMid")
+if (footer.innerText.length > 0) {
+    footer.classList.add(config.theme);
+    footer.setAttribute('id', 'footer');
+    story.appendChild(footer);
+}
 
-            svg.append("svg:image")
-                .attr("xlink:href","fig1.jpg")
-                .attr("x",100)
-                .attr("y",0)
-                .attr("width",1000)
-                .attr("height", 1000)
-                .attr("class", "text2opacity")
+mapboxgl.accessToken = config.accessToken;
 
-var svg = d3.select("div#thirdvisualdiv")
-						.append("svg")
-						.attr("viewBox", "0 0 1200 800")
-  						.attr("preserveAspectRatio", "xMinYMid")
+const transformRequest = (url) => {
+    const hasQuery = url.indexOf("?") !== -1;
+    const suffix = hasQuery ? "&pluginName=journalismScrollytelling" : "?pluginName=journalismScrollytelling";
+    return {
+      url: url + suffix
+    }
+}
 
-            svg.append("svg:image")
-                .attr("xlink:href","fig2.jpg")
-                .attr("x",100)
-                .attr("y",0)
-                .attr("width",1000)
-                .attr("height", 1000)
-                .attr("class", "text3opacity")
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: config.style,
+    center: config.chapters[0].location.center,
+    zoom: config.chapters[0].location.zoom,
+    bearing: config.chapters[0].location.bearing,
+    pitch: config.chapters[0].location.pitch,
+    scrollZoom: false,
+    transformRequest: transformRequest
+});
 
-var svg = d3.select("div#thirdvisualdiv")
-            .append("svg")
-            .attr("viewBox", "0 0 1200 800")
-              .attr("preserveAspectRatio", "xMinYMid")
+var marker = new mapboxgl.Marker();
+if (config.showMarkers) {
+    marker.setLngLat(config.chapters[0].location.center).addTo(map);
+}
 
-          svg.append("svg:image")
-               .attr("xlink:href","fig3.jpg")
-               .attr("x",100)
-               .attr("y",0)
-               .attr("width",1000)
-               .attr("height", 1000)
-               .attr("class", "text4opacity")
+// instantiate the scrollama
+var scroller = scrollama();
 
+map.on("load", function() {
+    // setup the instance, pass callback functions
+    scroller
+    .setup({
+        step: '.step',
+        offset: 0.5,
+        progress: true
+    })
+    .onStepEnter(response => {
+        var chapter = config.chapters.find(chap => chap.id === response.element.id);
+        response.element.classList.add('active');
+        map.flyTo(chapter.location);
+        if (config.showMarkers) {
+            marker.setLngLat(chapter.location.center);
+        }
+        if (chapter.onChapterEnter.length > 0) {
+            chapter.onChapterEnter.forEach(setLayerOpacity);
+        }
+    })
+    .onStepExit(response => {
+        var chapter = config.chapters.find(chap => chap.id === response.element.id);
+        response.element.classList.remove('active');
+        if (chapter.onChapterExit.length > 0) {
+            chapter.onChapterExit.forEach(setLayerOpacity);
+        }
+    });
+});
 
-    var controller = new ScrollMagic.Controller();
-
-    	new ScrollMagic.Scene({triggerElement: "#text1"})
-        	.setClassToggle(".text1opacity", "active")
-        	.addTo(controller);
-
-    	new ScrollMagic.Scene({triggerElement: "#text2"})
-        	.setClassToggle(".text2opacity", "active")
-        	.addTo(controller);
-
-		  new ScrollMagic.Scene({triggerElement: "#text3"})
-        	.setClassToggle(".text3opacity", "active")
-        	.addTo(controller);
-
-      new ScrollMagic.Scene({triggerElement: "#text4"})
-          .setClassToggle(".text4opacity", "active")
-          addTo(controller);
-
-//Our D3 code will go here.
-var width = 1200,
-    height = 900;
-var albersProjection = d3.geoAlbers()
-                .scale(190000)
-                .rotate([71.057, 0])
-                .center([0,42.313])
-                .translate([width/2,height/2])
-var path = d3.geoPath()
-                            .projection(albersProjection)
-
-var svg = d3.select("body").append("svg")
-.attr("width",1000)
-.attr("height", 1000)
-//2. Load the data:
-var bostonurl='https://gist.githubusercontent.com/cesandoval/09b2e39263c748fbcb84b927cecc7c46/raw/ab71d3638efd2545ec99c2651c6f2ddcea9d2a07/boston.json'
-var tweeturl="https://raw.githubusercontent.com/brookefzy/BigData2020/master/pset6/boston_311.csv"
-
-var tweet = d3.map();
-
-var color = d3.scaleQuantize()
-        .domain([0, 5.7])
-        .range(d3.schemePurples[9]);
-        var g = svg.append("g")
-               .attr("class", "key")
-               .attr("transform", "translate(0,40)");
-
-
-
-                g.selectAll("rect")
-                        .data(color.range().map(function(d) {
-                            d = color.invertExtent(d);
-                            if (d[0] == null) d[0] = x.domain()[0];
-                            if (d[1] == null) d[1] = x.domain()[1];
-                            return d;
-                        }))
-                        .enter().append("rect")
-                        .attr("height", 8)
-                        .attr("x", function(d) { return x(d[0]); })
-                        .attr("width", function(d) { return x(d[1]) - x(d[0]); })
-                        .attr("fill", function(d) { return color(d[0]); });
-
-                        legend = g.append("text")
-                                .attr("x", x.range()[0])
-                                .attr("y", -6)
-                                .attr("fill", "#000")
-                                .attr("text-anchor", "start")
-                                .attr("font-weight", "bold")
-                                .text("Tweets per neighborhood(Log Scale)");
-
-                  g.call(d3.axisBottom(x)
-                      .tickSize(13)
-                      .tickFormat(function(x, i) { return i ? x : x + "%"; })
-                      .tickValues(color.domain()))
-                      .select(".domain")
-                      .remove();
-
-                  var promises = [
-                              d3.json(bostonurl),
-                              d3.csv(tweeturl, function(d) {tweet.set(d.Name, [+d.twitter, +d.tot_count]); })
-                              ]
-
-      Promise.all(promises).then(ready)
-
-
-      var tooltip = d3.select("body")
-            .append("div")
-            .style("position", "absolute")
-            .style("z-index", "10")
-            .style("visibility", "hidden")
-              .style("background","white")
-              .style("opacity","0.6")
-              .style("padding","5px")
-              .style("font-family", "'Open Sans', sans-serif")
-              .style("font-size", "12px");
-  ;
-
-  function ready([boston]) {
-          console.log(boston)
-          console.log(tweet)
-
-      var tweets = svg.append("g")
-      tweets.selectAll("path")
-          .data(topojson.feature(boston, boston.objects.boston_neigh).features)
-          .enter().append("path")
-          .attr("fill", function(d) { return color(d.twitter = Math.log(tweet.get(d.properties.Name)[0])); })
-          .style("stroke","black")
-          .attr("d", path)
-          .on("mouseover", function(d) {
-                  console.log(tweet.get(d.properties.Name))
-                  tooltip
-           .style("left", d3.event.pageX + "px")
-           .style("top", d3.event.pageY + "px")
-                   .text(d.properties.Name +": " + (tweet.get(d.properties.Name)[0]/tweet.get(d.properties.Name)[1]).toFixed(4))
-                   .style("visibility", "visible");
-       })
-
-          .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-
-       .on("mouseout", function() {
-         d3.select("#tooltip").classed("hidden", true);
-       });
-
-  }
+// setup resize event
+window.addEventListener('resize', scroller.resize);
 
 </script>
+
 </body>
 </html>
