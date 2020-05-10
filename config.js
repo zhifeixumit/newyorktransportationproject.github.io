@@ -11,7 +11,7 @@ var config = {
     chapters: [
       {
           title: 'Intro',
-          description: 'Our analysis finds that the Citi Bike network mainly serves a privileged population that already has strong transit options. Future expansions of bike sharing in NYC, either through the existing Citi Bike system or through the introduction of new competitors, should expand the effective size of the population who can access the subway in neighborhoods of high social need. Our analysis finds that the Citi Bike network mainly serves a privileged population that already has strong transit options. Future expansions of bike sharing in NYC, either through the existing Citi Bike system or through the introduction of new competitors, should expand the effective size of the population who can access the subway in neighborhoods of high social need.',
+          description: 'Citi Bikes are proliferating. It not only tends to arrive at their Manhattan destinations faster than cabs but also represents a greener lifestyle. Besides, with the current condition of the coronavirus crisis, although being a private company, Citi Bike has gained an even more important weight in public transportation services. Since then, we would like to see, how well does Citi Bike serve New Yorkers, especially those who most in need of such an option? This website aims to uses spatial analysis to visualize and examine how well Citi Bike is doing now and give the direction of improvement.',
           location: {
               center: [-73.97341, 40.69114],
               zoom:10.86,
@@ -25,7 +25,7 @@ var config = {
         {
             id: 'first identifier',
             title: 'Mapping Out Bike Stations',
-            description: 'To figure out who has access to Citi Bike, and who doesn’t, we started with mapping out current Citi Bike stations. It’s clear that most of the Citi Bike stations are located in Manhattan, with some coverages in Brooklyn and Queens. In general, although Citi Bike is improving its coverage in the city, there is still a large part of NYC that’s underserved.',
+            description: 'To figure out who has access to Citi Bike, and who doesn’t, we started with mapping out current Citi Bike stations. Most of the Citi Bike stations are located in Manhattan, with some coverages in Brooklyn and Queens. This February, Citi Bike eventually released its draft map for the plan of expansion in Bronx，seven years after they launched in New York City. Once executed, it will give more transportation options for part of the community there. But in general, although Citi Bike is improving its coverage in the city slowly, there is still a large part of NYC that’s underserved.',
             location: {
                 center: [-73.97341, 40.69114],
                 zoom:10.86,
@@ -40,10 +40,10 @@ var config = {
                 }
             ],
             onChapterExit: [
-              {
-                  layer: 'bike_station',
-                  opacity: 1
-              },
+              // {
+              //     layer: 'bike_station',
+              //     opacity: 1
+              // },
               {
                   layer: 'bike_station',
                   opacity: 0.5
@@ -222,6 +222,41 @@ var config = {
                                 }
                               ]
                           },
+
+
+
+                          {
+                                  id: 'seventh-id',
+                                  title: 'Reference',
+
+                                  description: '“Bridging the Boroughs - How Well Does New York’s Bike Sharing System Serve New Yorkers?” by David Wachsmuth, Robin Basalaev-Binder, Natalie Pace and Lou Seltz',
+                                  location: {
+                                      center: [-73.97341, 40.69114],
+                                      zoom:10.86,
+                                      pitch: 0,
+                                      bearing: 0
+                                  },
+                                  onChapterEnter: [
+                                      // {
+                                      //     layer: 'subway_buffer',
+                                      //     opacity: 0
+                                      // },
+                                      {
+                                          layer: 'area_update',
+                                          opacity: 1
+                                      }
+                                  ],
+                                  onChapterExit: [
+                                    // {
+                                    //     layer: 'subway_buffer',
+                                    //     opacity: 1
+                                    // },
+                                    {
+                                        layer: 'area_update',
+                                        opacity: 0
+                                      }
+                                    ]
+                                },
             ]
 
 
