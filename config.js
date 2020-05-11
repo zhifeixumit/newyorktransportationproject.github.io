@@ -33,7 +33,10 @@ var config = {
                 bearing: 0
             },
             onChapterEnter: [
-
+              // {
+              //     layer: 'bike_station',
+              //     opacity: 0
+              // },
                 {
                     layer: 'bike_station',
                     opacity:1
@@ -42,7 +45,7 @@ var config = {
             onChapterExit: [
               {
                   layer: 'bike_station',
-                  opacity: 1
+                  opacity: 0.9
               },
               {
                   layer: 'bike_station',
