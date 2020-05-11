@@ -58,7 +58,7 @@ var config = {
             id: 'second identifier',
             title: 'Who are Citi Bike Serving',
             // image: './path/to/image/source.png',
-            description: 'By overlaying the Citi Bike stations and New Yorker\'s Income map, we can see that the people Citi Bike is currently serving are the wealthiest and the most privileged ones, while most of the neighborhoods that experience extreme poverty lie outside Citi Bikes service area. This found out is not surprising, two years ago a report from McGill University, founded by New York Communities for Change (NYCC), has found out that New Yorkers living inside Citi Bikes service area have a median household income of $90,400, compared to an average of $54,700 for those excluded. Things haven\'t changed much yet since the report published.',
+            description: 'By overlaying the Citi Bike stations and New Yorker\'s Income map, we can see that the people Citi Bike is currently serving are the wealthiest and the most privileged ones, while most of the neighborhoods that experience extreme poverty lie outside Citi Bikes service area. This found out is not surprising, two years ago a <a href="https://issuu.com/nycommunities4change/docs/final_citi_bike_report">report</a> from McGill University, founded by New York Communities for Change (NYCC), has found out that New Yorkers living inside Citi Bikes service area have a median household income of $90,400, compared to an average of $54,700 for those excluded. Things haven\'t changed much yet since the report published.',
             location: {
                   center: [-73.97341, 40.69114],
                   zoom:10.86,
@@ -223,10 +223,45 @@ var config = {
                               ]
                           },
 
-
-
                           {
                                   id: 'seventh-id',
+                                  title: 'Our Interactive Map Suggesting Policies for Each Identified Area',
+                                  // image: './path/to/image/source.png',
+
+                                  description: '<span style="color: yellow;"><b> <a href="https://ziyuran.github.io/bike_cluster/0511_cluster.html">Click Here to Explore Yourself On the Map</a></b></span> ',
+
+
+                                  location: {
+                                      center: [-73.97341, 40.69114],
+                                      zoom:10.86,
+                                      pitch: 0,
+                                      bearing: 0
+                                  },
+
+                                //   onChapterEnter: [
+                                //       // {
+                                //       //     layer: 'subway_buffer',
+                                //       //     opacity: 0
+                                //       // },
+                                //       {
+                                //           layer: 'area_update',
+                                //           opacity: 1
+                                //       }
+                                //   ],
+                                //   onChapterExit: [
+                                //     // {
+                                //     //     layer: 'subway_buffer',
+                                //     //     opacity: 1
+                                //     // },
+                                //     {
+                                //         layer: 'area_update',
+                                //         opacity: 0
+                                //       }
+                                //     ]
+                                },
+
+                          {
+                                  id: 'eigth-id',
                                   title: 'Reference',
 
                                   description: '“Bridging the Boroughs - How Well Does New York’s Bike Sharing System Serve New Yorkers?” by David Wachsmuth, Robin Basalaev-Binder, Natalie Pace and Lou Seltz',
