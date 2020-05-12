@@ -89,7 +89,7 @@ zoom: 10.72,
               id: 'third identifier',
               title: 'Where are Low-Income Neighborhoods?',
               // image: './path/to/image/source.png',
-              description: 'Next, identify the neighborhoods that belong to the low transport accessibility ones. We plan to overlap three public transport layers(in dots) and their service buffers(in areas).',
+              description: 'The official poverty rate is used as our measure for assessing which neighborhoods have higher proportions of the population in poverty, and thus a higher social need. From the map, we can see that Citi Bike, in general, serves an area with relatively low levels of poverty.',
               location: {
                 center: [-73.98140, 40.72363],
 zoom: 10.72,
