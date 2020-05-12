@@ -63,8 +63,8 @@ var config = {
             // image: './path/to/image/source.png',
             description: 'By overlaying the Citi Bike stations and New Yorker\'s Income map, we can see that the people Citi Bike is currently serving are the wealthiest and the most privileged ones, while most of the neighborhoods that experience extreme poverty lie outside Citi Bikes service area. This found out is not surprising, two years ago a <a href="https://issuu.com/nycommunities4change/docs/final_citi_bike_report">report</a> from McGill University, founded by New York Communities for Change (NYCC), has found out that New Yorkers living inside Citi Bikes service area have a median household income of $90,400, compared to an average of $54,700 for those excluded. Things haven\'t changed much yet since the report published.',
             location: {
-                  center: [-73.96457, 40.69360],
-                  zoom:10.72,
+              center: [-73.98140, 40.72363],
+zoom: 10.72,
                   pitch: 30,
                   bearing: 22.4
               },
@@ -91,8 +91,8 @@ var config = {
               // image: './path/to/image/source.png',
               description: 'Next, identify the neighborhoods that belong to the low transport accessibility ones. We plan to overlap three public transport layers(in dots) and their service buffers(in areas).',
               location: {
-                    center: [-73.96457, 40.69360],
-                    zoom:10.72,
+                center: [-73.98140, 40.72363],
+zoom: 10.72,
                     pitch: 30,
                     bearing: 22.4
                 },
@@ -127,8 +127,8 @@ var config = {
             // image: './path/to/image/source.png',
             description: 'As we know, the low-income community relies more on public transportation services, and they are the ones who can benefit most from having access to shared bikes if they are not living next to a public transportation stops. By mapping out the area along with subway stations, we can see that the Citi Bike network mainly serves a privileged population that already has strong transit options. Future expansions of bike-sharing in NYC, either through the existing Citi Bike system or through the introduction of new competitors, should expand the effective size of the population who can access the subway in neighborhoods of high social need.',
             location:  {
-                  center: [-73.96457, 40.69360],
-                  zoom:10.72,
+              center: [-73.98140, 40.72363],
+zoom: 10.72,
                   pitch: 30,
                   bearing: 22.4
               },
@@ -165,8 +165,8 @@ var config = {
                       // image: './path/to/image/source.png',
                       description: 'The same applies to access to bus services. Bus network has far more reach than the subway network. Thus, the result is the same. Bus services is not as reliable as subway services in some area of NYC, partially because of their number of runs. Bike-sharing can be a powerful way to improve the mobility options of socially disadvantaged communities who struggle to afford car ownership and don’t have reliable bus and subway access. Unfortunately, our analysis finds that the Citi Bike system in New York fails to live up to this promise. ',
                       location:  {
-                            center: [-73.96457, 40.69360],
-                            zoom:10.72,
+                        center: [-73.98140, 40.72363],
+zoom: 10.72,
                             pitch: 30,
                             bearing: 22.4
                         },
@@ -199,8 +199,8 @@ var config = {
                             // image: './path/to/image/source.png',
                             description: 'We recommend that Citibike should add more docks in areas with high social vulnerability, and targeting areas with limited access to transit. The highlighted area, where New Yorkers living in transportation dessert, should be the area that Citi Bike most focused on in the next phase.',
                             location:  {
-                                  center: [-73.96457, 40.69360],
-                                  zoom:10.72,
+                                  center: [-73.98140, 40.72363],
+zoom: 10.72,
                                   pitch: 30,
                                   bearing: 22.4
                               },
@@ -235,8 +235,8 @@ var config = {
 
 
                                   location:  {
-                                        center: [-73.96457, 40.69360],
-                                        zoom:10.72,
+                                    center: [-73.98140, 40.72363],
+zoom: 10.72,
                                         pitch: 30,
                                         bearing: 22.4
                                     },
