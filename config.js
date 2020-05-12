@@ -4,7 +4,7 @@ var config = {
     showMarkers: false,
     theme: 'light',
     alignment: 'left',
-    title: 'How Well Does New York Bike Sharing System Serve New Yorkers?',
+    title: 'How to improve the low income community’s last mile by bike sharing?',
     // subtitle: 'A descriptive and interesting subtitle to draw in the reader',
     byline: 'Author: Ziyu Ran, Yanchao Li, Zhifei Xu',
     footer: 'Source: source citations, etc.',
