@@ -231,7 +231,7 @@ zoom: 10.72,
                                   title: 'Our Interactive Map Suggesting Policies for Each Identified Area',
                                   // image: './path/to/image/source.png',
 
-                                  description: '<span style="color: yellow;"><b> <a href="https://ziyuran.github.io/bike_cluster/0512_legend.html">Click Here to Explore Yourself On the Map</a></b></span> ',
+                                  description: '<span style="color: yellow;"><b> <a href="https://ziyuran.github.io/bike_cluster/platform.html">Click Here to Explore Yourself On the Map</a></b></span> ',
 
 
                                   location:  {
